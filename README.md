@@ -10,3 +10,6 @@ This widget uses the iOS Scriptable app for a Kakao Friends home widget that inc
 - If using Celcius, change line 45 from "F" to "C"
 - The Scriptable app should create a folder in iCloud. Copy both JS file and "weather" folder into the "Scriptable" folder in iCloud
 - Add a Scriptable widget to the homescreen and select the script
+
+- What're these lat.txt and long.txt files? 
+-- The script uses the current location to retrieve the latest weather info but sometimes may fail and cause an error to appear on the Scriptable widget.  The script saves the last latitude and longitude to the files and uses them if the current location fails
