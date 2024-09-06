@@ -10,11 +10,28 @@
 // The City ID for your current location will appear in the log section of the app. 
 
 //API_KEY
-let API_WEATHER = "";	//LOAD YOUR API KEY HERE BETWEEN DOUBLE QUOTES
+let API_WEATHER = "391387b5519159a34415416892d4eb66";//Load Your api here
 
 
 Location.setAccuracyToBest();  
-let curLocation = await Location.current();  console.log(curLocation.latitude);  
+var base_path = "/var/mobile/Library/Mobile Documents/iCloud~dk~simonbs~Scriptable/Documents/weather/";
+
+const fm = FileManager.iCloud();
+
+try {
+  var curLocation = await Location.current();
+  console.log(curLocation);
+  fm.writeString(base_path+"lat.txt", String(curLocation.latitude));
+  fm.writeString(base_path+"long.txt", String(curLocation.longitude));
+} catch (error) {
+  let lat = parseFloat(fm.readString(base_path+"lat.txt"));
+  let long = parseFloat(fm.readString(base_path+"long.txt"));
+  var curLocation = {
+    latitude: lat,
+    longitude:long
+  }
+}
+console.log(curLocation.latitude);  
 console.log(curLocation.longitude);
 let url = "http://api.openweathermap.org/data/2.5/weather?lat=" + curLocation.latitude + "&lon=" + curLocation.longitude + "&appid=" + API_WEATHER + "&units=metric";  
 
@@ -49,10 +66,6 @@ var today = new Date();
 
 //Initlize Widget
 let widget = new ListWidget(); 
-
-//Get storage
-var base_path = "/var/mobile/Library/Mobile Documents/iCloud~dk~simonbs~Scriptable/Documents/weather/";
-var fm = FileManager.iCloud();
 
 //color
 async function setTextColor(){   
@@ -92,7 +105,7 @@ async function fetchimagelocal(path){
   }else{
     //throw new Error("Error file not found: " + path);
     if(fm.fileExists(base_path)==false){
-      console.log("Directry not exist creating one.");
+      console.log("Directory not exist creating one.");
       fm.createDirectory(base_path);
     }
     console.log("Downloading file: " + finalPath);
